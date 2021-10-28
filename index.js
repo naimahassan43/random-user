@@ -52,3 +52,23 @@ function showUsers(users) {
     gallery.append(cardDiv);
   });
 }
+
+//Search form create
+const form = document.createElement("form");
+form.action = "#";
+form.method = "GET";
+
+const searchInput = document.createElement("input");
+searchInput.type = "search";
+searchInput.id = "search-input";
+searchInput.className = "search-input";
+searchInput.placeholder = "Search...";
+
+const submitInput = document.createElement("input");
+submitInput.value = `Search`;
+submitInput.type = "submit";
+submitInput.id = "search-submit";
+submitInput.className = "search-submit";
+
+form.append(searchInput, submitInput);
+searchContainer.append(form);
