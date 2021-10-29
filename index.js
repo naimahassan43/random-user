@@ -9,8 +9,9 @@ const getData = async () => {
 };
 getData().then((data) => {
   let users = data.results;
-  // console.log(users);
+  console.log(users);
   showUsers(users);
+  showModalUser(users);
 });
 
 //Show Users functions
@@ -53,8 +54,9 @@ function showUsers(users) {
   });
 }
 
-//Search form create
+//create Search form
 const form = document.createElement("form");
+form.id = "form-search";
 form.action = "#";
 form.method = "GET";
 
@@ -77,6 +79,7 @@ searchContainer.append(form);
 searchContainer.addEventListener("keyup", function (e) {
   const keyword = e.target.value.toLowerCase();
   const cardUsers = document.querySelectorAll(".card");
+
   for (let cardUser of cardUsers) {
     const userName = cardUser.children[1].children[0].innerText.toLowerCase();
     const userEmail = cardUser.children[1].children[1].innerText.toLowerCase();
@@ -87,5 +90,75 @@ searchContainer.addEventListener("keyup", function (e) {
       cardUser.style.display = "none";
     }
   }
+
   // console.log(keyword);
 });
+
+document.querySelector("#form-search").addEventListener("submit", (e) => {
+  e.preventDefault();
+});
+
+/*********Modal Function**********/
+function showModalUser(users) {
+  users.forEach((user) => {
+    // Create Modal Content
+    const modalContDiv = document.createElement("div");
+    modalContDiv.className = "modal-container";
+    //modal
+    const modalDiv = document.createElement("div");
+    modalDiv.className = "modal";
+    //button
+    const closeBtn = document.createElement("button");
+    closeBtn.id = "modal-close-btn";
+    closeBtn.className = "modal-close-btn";
+    const strong = document.createElement("strong");
+    strong.innerText = "X";
+    // modal-info-container
+    const modalInfoDiv = document.createElement("div");
+    modalInfoDiv.className = "modal-info-container";
+
+    const modalImg = document.createElement("img");
+    modalImg.className = "modal-img";
+    modalImg.src = `${user.picture.medium}`;
+    modalImg.alt = `${user.name.first} ${user.name.last}`;
+
+    const modalName = document.createElement("h3");
+    modalName.className = "modal-name cap";
+    modalName.id = "name";
+    modalName.innerText = `${user.name.first} ${user.name.last}`;
+
+    const modalEmailP = document.createElement("p");
+    modalEmailP.className = "modal-text";
+    modalEmailP.innerText = `${user.email}`;
+
+    const modalCityP = document.createElement("p");
+    modalCityP.className = "card-text cap";
+    modalCityP.innerText = `${user.location.city}`;
+
+    const hr = document.createElement("hr");
+
+    const modalPhnP = document.createElement("p");
+    modalPhnP.className = "modal-text";
+    modalPhnP.innerText = `${user.cell}`;
+    const modalAdrsP = document.createElement("p");
+    modalAdrsP.className = "modal-text";
+    modalAdrsP.innerText = `${user.location.street.number} ${user.location.street.name}, ${user.location.city}, OR ${user.location.postcode}`;
+    // const modalBirthP = document.createElement("p");
+    // modalBirthP.className = "modal-text";
+    // modalBirthP.innerText = `${user.dob.date}`;
+    //Append child
+    modalInfoDiv.append(
+      modalImg,
+      modalName,
+      modalEmailP,
+      modalCityP,
+      hr,
+      modalPhnP,
+      modalAdrsP
+    );
+    closeBtn.append(strong);
+    modalDiv.append(closeBtn, modalInfoDiv);
+    modalContDiv.append(modalDiv);
+    console.log(modalContDiv);
+  });
+}
