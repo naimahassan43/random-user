@@ -72,3 +72,20 @@ submitInput.className = "search-submit";
 
 form.append(searchInput, submitInput);
 searchContainer.append(form);
+
+// Filter the user
+searchContainer.addEventListener("keyup", function (e) {
+  const keyword = e.target.value.toLowerCase();
+  const cardUsers = document.querySelectorAll(".card");
+  for (let cardUser of cardUsers) {
+    const userName = cardUser.children[1].children[0].innerText.toLowerCase();
+    const userEmail = cardUser.children[1].children[1].innerText.toLowerCase();
+
+    if (userName.includes(keyword) || userEmail.includes(keyword)) {
+      cardUser.style.display = "block";
+    } else {
+      cardUser.style.display = "none";
+    }
+  }
+  // console.log(keyword);
+});
